@@ -5,3 +5,27 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Notes App — Local Storage CRUD</title>
   <link rel="stylesheet" href="styles.css" />
+
+  </head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>Notes</h1>
+      <div class="controls">
+        <input id="searchInput" type="search" placeholder="Search notes..." />
+        <select id="categoryFilter">
+          <option value="">All categories</option>
+        </select>
+        <button id="clearAllBtn" class="danger">Clear All</button>
+      </div>
+    </header>
+    
+    <section class="note-form">
+      <form id="noteForm">
+        <input id="noteId" type="hidden" />
+
+        <div class="row">
+          <input id="titleInput" type="text" placeholder="Title" required maxlength="80"/>
+          <input id="categoryInput" type="text" placeholder="Category (e.g. Work, Personal)" />
+          <input id="colorInput" type="color" value="#ffd166" title="Choose color"/>
+        </div>
