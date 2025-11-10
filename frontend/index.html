@@ -29,3 +29,16 @@
           <input id="categoryInput" type="text" placeholder="Category (e.g. Work, Personal)" />
           <input id="colorInput" type="color" value="#ffd166" title="Choose color"/>
         </div>
+
+    <textarea id="contentInput" rows="6" placeholder="Write your note here..." required></textarea>
+         <div class="row actions">
+          <button type="submit" id="saveBtn" class="primary">Save Note</button>
+          <button type="button" id="cancelEditBtn" class="secondary hidden">Cancel Edit</button>
+        </div>
+      </form>
+    </section>
+
+     <section id="notesContainer" class="notes-grid" aria-live="polite">
+      <!-- notes injected here -->
+    </section>
+
