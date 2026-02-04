@@ -1,33 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NoteForm from "./NoteForm";
 import NoteList from "./NoteList";
 
 function App() {
   const [notes, setNotes] = useState([]);
 
-  const addNote = (text) => {
-    const newNote = {
-      id: Date.now(), // simple unique ID
-      text: text,
-    };
+  // 🔹 Load notes on first render
+  useEffect(() => {
+    const savedNotes = JSON.parse(localStorage.getItem("notes"));
+    if (savedNotes) {
+      setNotes(savedNotes);
+    }
+  }, []);
 
-    setNotes((prevNotes) => [...prevNotes, newNote]);
+  // 🔹 Save notes whenever notes change
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
+
+  const addNote = (text) => {
+    setNotes([
+      ...notes,
+      {
+        id: Date.now(),
+        text,
+      },
+    ]);
   };
 
-  // 🔑 Delete function
   const deleteNote = (id) => {
-    setNotes((prevNotes) =>
-      prevNotes.filter((note) => note.id !== id)
+    setNotes(notes.filter((note) => note.id !== id));
+  };
+
+  const editNote = (id, newText) => {
+    setNotes(
+      notes.map((note) =>
+        note.id === id ? { ...note, text: newText } : note
+      )
     );
   };
-  
-  const editNote = (id, newText) => {
-  setNotes((prevNotes) =>
-    prevNotes.map((note) =>
-      note.id === id ? { ...note, text: newText } : note
-    )
-  );
-};
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -35,8 +46,11 @@ function App() {
 
       <NoteForm onAddNote={addNote} />
 
-      {/* pass delete function */}
-      <NoteList notes={notes} onDelete={deleteNote} />
+      <NoteList
+        notes={notes}
+        onDelete={deleteNote}
+        onEdit={editNote}
+      />
     </div>
   );
 }
