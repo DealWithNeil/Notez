@@ -20,4 +20,10 @@ function NoteList({ notes, onDelete }) {
   );
 }
 
+<NoteList
+  notes={notes}
+  onDelete={deleteNote}
+  onEdit={editNote}
+/>
+
 export default NoteList;
