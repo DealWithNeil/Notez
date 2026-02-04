@@ -20,6 +20,14 @@ function App() {
       prevNotes.filter((note) => note.id !== id)
     );
   };
+  
+  const editNote = (id, newText) => {
+  setNotes((prevNotes) =>
+    prevNotes.map((note) =>
+      note.id === id ? { ...note, text: newText } : note
+    )
+  );
+};
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
