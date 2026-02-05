@@ -19,14 +19,15 @@ function App() {
   }, [notes]);
 
   const addNote = (text) => {
-    setNotes([
-      ...notes,
-      {
-        id: Date.now(),
-        text,
-      },
-    ]);
-  };
+  setNotes([
+    {
+      id: Date.now(),
+      text,
+      createdAt: new Date().toISOString(),
+    },
+    ...notes,
+  ]);
+};
 
   const deleteNote = (id) => {
     setNotes(notes.filter((note) => note.id !== id));
