@@ -43,6 +43,10 @@ function App() {
     );
   };
 
+  const filteredNotes = notes.filter((note) =>
+  note.text.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <h1 className="text-2xl font-bold mb-4">My Notes</h1>
