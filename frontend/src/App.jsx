@@ -54,10 +54,11 @@ function App() {
       <NoteForm onAddNote={addNote} />
 
       <NoteList
-        notes={notes}
-        onDelete={deleteNote}
-        onEdit={editNote}
+       notes={filteredNotes}
+      onDelete={deleteNote}
+      onEdit={editNote}
       />
+      
     </div>
   );
 }
