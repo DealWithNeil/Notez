@@ -4,6 +4,8 @@ import NoteList from "./NoteList";
 
 function App() {
   const [notes, setNotes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
 
   // 🔹 Load notes on first render
   useEffect(() => {
