@@ -62,4 +62,13 @@ function App() {
   );
 }
 
+<input
+  type="text"
+  placeholder="Search notes..."
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  className="border p-2 mb-4 rounded w-full max-w-md"
+/>
+
+
 export default App;
