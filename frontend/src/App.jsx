@@ -36,12 +36,12 @@ function App() {
   };
 
   const editNote = (id, newText) => {
-    setNotes(
-      notes.map((note) =>
-        note.id === id ? { ...note, text: newText } : note
-      )
-    );
-  };
+  setNotes(
+    notes.map((note) =>
+      note.id === id ? { ...note, text: newText } : note
+    )
+  );
+};
 
   const filteredNotes = notes.filter((note) =>
   note.text.toLowerCase().includes(searchTerm.toLowerCase())

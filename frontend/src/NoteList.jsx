@@ -1,3 +1,6 @@
+import { useState } from "react";
+const [editingId, setEditingId] = useState(null);
+const [editText, setEditText] = useState("");
 function NoteList({ notes, onDelete, onEdit }) {
   return (
     <ul className="space-y-3">
