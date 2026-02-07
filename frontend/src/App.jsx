@@ -49,7 +49,12 @@ function App() {
 );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div
+  className={`min-h-screen p-6 transition-colors duration-300 ${
+    darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
+  }`}
+>
+
       <h1 className="text-2xl font-bold mb-4">My Notes</h1>
 
       <NoteForm onAddNote={addNote} />
