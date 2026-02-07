@@ -3,6 +3,7 @@ import NoteForm from "./NoteForm";
 import NoteList from "./NoteList";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
   const [notes, setNotes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
