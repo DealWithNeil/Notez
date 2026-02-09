@@ -84,7 +84,11 @@ function App() {
   placeholder="Search notes..."
   value={searchTerm}
   onChange={(e) => setSearchTerm(e.target.value)}
-  className="border p-2 mb-4 rounded w-full max-w-md"
+  className={`border p-2 mb-4 rounded w-full max-w-md ${
+    darkMode
+      ? "bg-gray-800 text-white border-gray-600"
+      : "bg-white text-black"
+  }`}
 />
 
 
