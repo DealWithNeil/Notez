@@ -64,8 +64,6 @@ function App() {
   {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
 </button>
 
-      <NoteForm onAddNote={addNote} />
-
       <NoteForm onAddNote={addNote} darkMode={darkMode} />
 <NoteList
   notes={filteredNotes}
