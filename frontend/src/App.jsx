@@ -3,8 +3,10 @@ import NoteForm from "./NoteForm";
 import NoteList from "./NoteList";
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [darkMode, setDarkMode] = useState(() => {
+  const savedTheme = localStorage.getItem("darkMode");
+  return savedTheme === "true";
+});
 
   const [notes, setNotes] = useState(() => {
     const saved = localStorage.getItem("notes");
