@@ -8,6 +8,10 @@ function App() {
   return savedTheme === "true";
 });
 
+useEffect(() => {
+  localStorage.setItem("darkMode", darkMode);
+}, [darkMode]);
+
   const [notes, setNotes] = useState(() => {
     const saved = localStorage.getItem("notes");
     return saved ? JSON.parse(saved) : [];
