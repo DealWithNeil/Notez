@@ -44,7 +44,10 @@ function NoteList({ notes, onDelete, onEdit, darkMode }) {
             </div>
           ) : (
             <div className="flex-1">
-              <p>{note.text}</p>
+              <p className="font-medium">{note.text}</p>
+            <p className="text-sm text-blue-500 mt-1">
+              #{note.category}
+            </p>
               <small className="text-gray-500">
                 {new Date(note.createdAt).toLocaleString()}
               </small>
