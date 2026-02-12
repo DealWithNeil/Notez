@@ -27,16 +27,17 @@ function App() {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
-  const addNote = (text) => {
-    setNotes((prev) => [
-      {
-        id: Date.now(),
-        text,
-        createdAt: new Date().toISOString(),
-      },
-      ...prev,
-    ]);
-  };
+  const addNote = (text, category) => {
+  setNotes((prev) => [
+    {
+      id: Date.now(),
+      text,
+      category,
+      createdAt: new Date().toISOString(),
+    },
+    ...prev,
+  ]);
+};
 
   const deleteNote = (id) => {
     setNotes((prev) => prev.filter((note) => note.id !== id));
