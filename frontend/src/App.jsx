@@ -3,17 +3,29 @@ import NoteForm from "./NoteForm";
 import NoteList from "./NoteList";
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  // ✅ Load dark mode from localStorage on first render
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem("darkMode");
+    return savedTheme === "true";
+  });
+
   const [searchTerm, setSearchTerm] = useState("");
 
+  // ✅ Load notes from localStorage
   const [notes, setNotes] = useState(() => {
     const saved = localStorage.getItem("notes");
     return saved ? JSON.parse(saved) : [];
   });
 
+  // ✅ Save notes when they change
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
+
+  // ✅ Save dark mode when it changes
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
 
   const addNote = (text) => {
     setNotes((prev) => [
@@ -45,16 +57,22 @@ function App() {
   return (
     <div
       className={`min-h-screen p-6 transition-colors duration-300 ${
-        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
+        darkMode
+          ? "bg-gray-900 text-gray-100"
+          : "bg-gray-100 text-gray-900"
       }`}
     >
       <h1 className="text-2xl font-bold mb-4">My Notes</h1>
 
       <button
         onClick={() => setDarkMode(!darkMode)}
-        className="mb-4 px-4 py-2 rounded bg-gray-700 text-white hover:bg-gray-600"
+        className={`mb-6 px-4 py-2 rounded-lg font-medium transition ${
+          darkMode
+            ? "bg-yellow-400 text-black hover:bg-yellow-300"
+            : "bg-gray-800 text-white hover:bg-gray-700"
+        }`}
       >
-        {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+        {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
       </button>
 
       <NoteForm onAddNote={addNote} darkMode={darkMode} />
@@ -80,6 +98,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
