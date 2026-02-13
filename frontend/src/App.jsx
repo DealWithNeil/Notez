@@ -88,17 +88,22 @@ function App() {
 
       <NoteForm onAddNote={addNote} darkMode={darkMode} />
 
-      <input
-        type="text"
-        placeholder="Search notes..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className={`border p-2 mb-4 rounded w-full max-w-md ${
-          darkMode
-            ? "bg-gray-800 text-white border-gray-600"
-            : "bg-white text-black"
-        }`}
-      />
+      <select
+      value={selectedCategory}
+      onChange={(e) => setSelectedCategory(e.target.value)}
+      className={`border p-2 mb-4 rounded w-full max-w-md ${
+        darkMode
+          ? "bg-gray-800 text-white border-gray-600"
+          : "bg-white text-black"
+      }`}
+    >
+      <option value="All">All Categories</option>
+      <option value="General">General</option>
+      <option value="Work">Work</option>
+      <option value="Personal">Personal</option>
+      <option value="Ideas">Ideas</option>
+    </select>
+
 
       <NoteList
         notes={filteredNotes}
