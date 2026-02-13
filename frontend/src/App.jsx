@@ -52,17 +52,17 @@ function App() {
     );
   };
 
-      const filteredNotes = notes.filter((note) => {
-      const matchesSearch = note.text
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+  const filteredNotes = notes.filter((note) => {
+  const matchesSearch = note.text
+    .toLowerCase()
+    .includes(searchTerm.toLowerCase());
 
-      const matchesCategory =
-        selectedCategory === "All" ||
-        note.category === selectedCategory;
+  const matchesCategory =
+    selectedCategory === "All" ||
+    note.category === selectedCategory;
 
-      return matchesSearch && matchesCategory;
-    });
+  return matchesSearch && matchesCategory;
+});
 
 
   return (
