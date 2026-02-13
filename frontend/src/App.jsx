@@ -10,6 +10,7 @@ function App() {
   });
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   // ✅ Load notes from localStorage
   const [notes, setNotes] = useState(() => {
