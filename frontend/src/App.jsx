@@ -52,9 +52,18 @@ function App() {
     );
   };
 
-  const filteredNotes = notes.filter((note) =>
-    note.text.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+      const filteredNotes = notes.filter((note) => {
+      const matchesSearch = note.text
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+
+      const matchesCategory =
+        selectedCategory === "All" ||
+        note.category === selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    });
+
 
   return (
     <div
