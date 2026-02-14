@@ -9,9 +9,12 @@ function NoteList({ notes, onDelete, onEdit, darkMode }) {
       {notes.map((note) => (
         <li
           key={note.id}
-          className={`p-3 rounded shadow flex justify-between items-start ${
+          className={`p-3 rounded shadow flex justify-between items-start
+          transition-all duration-300 ease-in-out
+          ${
             darkMode ? "bg-gray-800" : "bg-white"
           }`}
+
         >
           {editingId === note.id ? (
             <div className="flex-1">
