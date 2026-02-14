@@ -11,10 +11,10 @@ function NoteList({ notes, onDelete, onEdit, darkMode }) {
           key={note.id}
           className={`p-3 rounded shadow flex justify-between items-start
           transition-all duration-300 ease-in-out
+          hover:scale-[1.02] hover:shadow-lg
           ${
             darkMode ? "bg-gray-800" : "bg-white"
           }`}
-
         >
           {editingId === note.id ? (
             <div className="flex-1">
