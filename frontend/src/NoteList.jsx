@@ -8,14 +8,16 @@ function NoteList({ notes, onDelete, onEdit, darkMode }) {
     <ul className="space-y-3">
       {notes.map((note) => (
         <li
-          key={note.id}
-          className={`p-3 rounded shadow flex justify-between items-start
+        key={note.id}
+        className={`p-3 rounded shadow flex justify-between items-start
           transition-all duration-300 ease-in-out
           hover:scale-[1.02] hover:shadow-lg
+          animate-fadeIn
           ${
             darkMode ? "bg-gray-800" : "bg-white"
           }`}
-        >
+      >
+
           {editingId === note.id ? (
             <div className="flex-1">
               <input
