@@ -35,10 +35,12 @@ function App() {
       text,
       category,
       createdAt: new Date().toISOString(),
+      completed: false,
     },
     ...prev,
   ]);
 };
+
 
   const deleteNote = (id) => {
     setNotes((prev) => prev.filter((note) => note.id !== id));
