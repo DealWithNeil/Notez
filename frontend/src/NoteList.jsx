@@ -78,6 +78,17 @@ function NoteList({ notes, onDelete, onToggle, onEdit, darkMode }) {
                 }}
                 className="text-blue-500"
               >
+                <button
+                onClick={() => onToggle(note.id)}
+                className={`text-sm ${
+                  note.completed
+                    ? "text-green-500"
+                    : "text-gray-400"
+                }`}
+              >
+                {note.completed ? "✔ Completed" : "Mark as Done"}
+              </button>
+
                 Edit
               </button>
 
