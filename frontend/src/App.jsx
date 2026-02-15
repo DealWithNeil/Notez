@@ -117,11 +117,13 @@ const toggleComplete = (id) => {
 
 
       <NoteList
-        notes={filteredNotes}
-        onDelete={deleteNote}
-        onEdit={editNote}
-        darkMode={darkMode}
-      />
+      notes={filteredNotes}
+      onDelete={deleteNote}
+      onEdit={editNote}
+      onToggle={toggleComplete}
+      darkMode={darkMode}
+/>
+
     </div>
   );
 }
