@@ -66,6 +66,15 @@ function App() {
   return matchesSearch && matchesCategory;
 });
 
+const toggleComplete = (id) => {
+  setNotes((prev) =>
+    prev.map((note) =>
+      note.id === id
+        ? { ...note, completed: !note.completed }
+        : note
+    )
+  );
+};
 
   return (
     <div
