@@ -50,7 +50,16 @@ function NoteList({ notes, onDelete, onToggle, onEdit, darkMode }) {
             </div>
           ) : (
             <div className="flex-1">
-              <p className="font-medium">{note.text}</p>
+              <p
+                className={`font-medium ${
+                  note.completed
+                    ? "line-through opacity-60"
+                    : ""
+                }`}
+              >
+                {note.text}
+              </p>
+
             <p className="text-sm text-blue-500 mt-1">
               #{note.category}
             </p>
