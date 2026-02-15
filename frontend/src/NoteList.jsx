@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-function NoteList({ notes, onDelete, onEdit, darkMode }) {
+function NoteList({ notes, onDelete, onToggle, onEdit, darkMode }) {
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
+  
 
   return (
     <ul className="space-y-3">
