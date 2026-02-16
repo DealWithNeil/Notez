@@ -54,14 +54,16 @@ function App() {
     );
   };
 
-  const filteredNotes = notes.filter((note) => {
+  // Stats (OUTSIDE filter)
+const totalNotes = notes.length;
+const completedNotes = notes.filter((note) => note.completed).length;
+const remainingNotes = totalNotes - completedNotes;
+
+// Filtering logic
+const filteredNotes = notes.filter((note) => {
   const matchesSearch = note.text
     .toLowerCase()
     .includes(searchTerm.toLowerCase());
-  
-  const totalNotes = notes.length;
-  const completedNotes = notes.filter((note) => note.completed).length;
-  const remainingNotes = totalNotes - completedNotes;
 
   const matchesCategory =
     selectedCategory === "All" ||
@@ -69,6 +71,7 @@ function App() {
 
   return matchesSearch && matchesCategory;
 });
+
 
 const toggleComplete = (id) => {
   setNotes((prev) =>
