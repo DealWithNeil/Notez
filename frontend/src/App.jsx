@@ -100,6 +100,27 @@ const toggleComplete = (id) => {
       >
         {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
       </button>
+      
+      <div
+  className={`grid grid-cols-3 gap-4 mb-6 text-center ${
+    darkMode ? "text-gray-200" : "text-gray-800"
+  }`}
+>
+  <div className="p-3 rounded bg-blue-500 text-white shadow">
+    <p className="text-lg font-bold">{totalNotes}</p>
+    <p className="text-sm">Total</p>
+  </div>
+
+  <div className="p-3 rounded bg-green-500 text-white shadow">
+    <p className="text-lg font-bold">{completedNotes}</p>
+    <p className="text-sm">Completed</p>
+  </div>
+
+  <div className="p-3 rounded bg-yellow-500 text-white shadow">
+    <p className="text-lg font-bold">{remainingNotes}</p>
+    <p className="text-sm">Remaining</p>
+  </div>
+</div>
 
       <NoteForm onAddNote={addNote} darkMode={darkMode} />
 
