@@ -58,6 +58,10 @@ function App() {
   const matchesSearch = note.text
     .toLowerCase()
     .includes(searchTerm.toLowerCase());
+  
+  const totalNotes = notes.length;
+  const completedNotes = notes.filter((note) => note.completed).length;
+  const remainingNotes = totalNotes - completedNotes;
 
   const matchesCategory =
     selectedCategory === "All" ||
