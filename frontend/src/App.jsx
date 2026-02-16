@@ -3,7 +3,7 @@ import NoteForm from "./NoteForm";
 import NoteList from "./NoteList";
 
 function App() {
-  // ✅ Load dark mode from localStorage on first render
+  // Load dark mode from localStorage on first render
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("darkMode");
     return savedTheme === "true";
@@ -12,18 +12,18 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // ✅ Load notes from localStorage
+  // Load notes from localStorage
   const [notes, setNotes] = useState(() => {
     const saved = localStorage.getItem("notes");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // ✅ Save notes when they change
+  // Save notes when they change
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
-  // ✅ Save dark mode when it changes
+  // Save dark mode when it changes
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
