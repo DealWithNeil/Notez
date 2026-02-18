@@ -9,6 +9,7 @@ function App() {
     return savedTheme === "true";
   });
 
+  const [noteToDelete, setNoteToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -43,8 +44,20 @@ function App() {
 
 
   const deleteNote = (id) => {
-    setNotes((prev) => prev.filter((note) => note.id !== id));
+  setNoteToDelete(id);
+};
+
+  const confirmDelete = () => {
+    setNotes((prev) =>
+      prev.filter((note) => note.id !== noteToDelete)
+    );
+    setNoteToDelete(null);
   };
+
+  const cancelDelete = () => {
+    setNoteToDelete(null);
+  };
+
 
   const editNote = (id, newText) => {
     setNotes((prev) =>
@@ -84,7 +97,38 @@ const toggleComplete = (id) => {
 };
 
   return (
-    <div
+    <>
+      {noteToDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div
+            className={`p-6 rounded shadow-lg w-80 ${
+              darkMode ? "bg-gray-800 text-white" : "bg-white text-black"
+            }`}
+          >
+            <h2 className="text-lg font-semibold mb-4">
+              Delete this note?
+            </h2>
+
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={cancelDelete}
+                className="px-3 py-1 rounded bg-gray-400 text-white"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={confirmDelete}
+                className="px-3 py-1 rounded bg-red-500 text-white"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div
       className={`min-h-screen p-6 transition-colors duration-300 ${
         darkMode
           ? "bg-gray-900 text-gray-100"
@@ -153,6 +197,7 @@ const toggleComplete = (id) => {
 />
 
     </div>
+    </>
   );
 }
 
