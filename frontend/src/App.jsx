@@ -76,6 +76,24 @@ const completionRate =
     ? 0
     : Math.round((completedNotes / totalNotes) * 100);
 
+      <div className="mb-6">
+  <div className="flex justify-between mb-1 text-sm">
+    <span>Progress</span>
+    <span>{completionRate}%</span>
+  </div>
+
+  <div
+    className={`w-full h-3 rounded-full ${
+      darkMode ? "bg-gray-700" : "bg-gray-300"
+    }`}
+  >
+    <div
+      className="h-3 rounded-full bg-green-500 transition-all duration-500"
+      style={{ width: `${completionRate}%` }}
+    />
+  </div>
+</div>
+
 
 // Filtering logic
 const filteredNotes = notes.filter((note) => {
