@@ -71,6 +71,11 @@ function App() {
 const totalNotes = notes.length;
 const completedNotes = notes.filter((note) => note.completed).length;
 const remainingNotes = totalNotes - completedNotes;
+const completionRate =
+  totalNotes === 0
+    ? 0
+    : Math.round((completedNotes / totalNotes) * 100);
+
 
 // Filtering logic
 const filteredNotes = notes.filter((note) => {
