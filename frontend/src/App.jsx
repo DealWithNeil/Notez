@@ -29,7 +29,7 @@ function App() {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
-  const addNote = (text, category) => {
+  const addNote = (text, category, priority) => {
   setNotes((prev) => [
     {
       id: Date.now(),
