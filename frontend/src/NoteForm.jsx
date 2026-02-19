@@ -10,7 +10,8 @@ function NoteForm({ onAddNote, darkMode }) {
     e.preventDefault();
     if (text.trim() === "") return;
 
-    onAddNote(text, category);
+    onAddNote(text, category, priority);
+    setPriority("Low");
     setText("");
     setCategory("General");
   };
