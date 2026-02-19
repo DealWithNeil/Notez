@@ -30,6 +30,21 @@ function NoteList({ notes, onDelete, onToggle, onEdit, darkMode }) {
                     : "bg-white text-black"
                 }`}
               />
+                  <div className="flex gap-2 mt-1 items-center">
+        <p className="text-sm text-blue-500">
+          #{note.category}
+        </p>
+
+        <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+          note.priority === "High"
+            ? "bg-red-500 text-white"
+            : note.priority === "Medium"
+            ? "bg-yellow-400 text-black"
+            : "bg-green-500 text-white"
+        }`}>
+          {note.priority}
+        </span>
+      </div>
 
               <button
                 onClick={() => {
