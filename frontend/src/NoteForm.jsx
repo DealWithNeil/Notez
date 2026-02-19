@@ -39,11 +39,27 @@ function NoteForm({ onAddNote, darkMode }) {
             : "bg-white text-black"
         }`}
       >
+        
         <option>General</option>
         <option>Work</option>
         <option>Personal</option>
         <option>Ideas</option>
       </select>
+
+      <select
+        value={priority}
+        onChange={(e) => setPriority(e.target.value)}
+        className={`border p-2 rounded w-full ${
+          darkMode
+            ? "bg-gray-800 text-white border-gray-600"
+            : "bg-white text-black"
+        }`}
+      >
+        <option value="Low">Low Priority</option>
+        <option value="Medium">Medium Priority</option>
+        <option value="High">High Priority</option>
+      </select>
+
 
       <button
         type="submit"
