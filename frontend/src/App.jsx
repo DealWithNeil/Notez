@@ -32,12 +32,14 @@ function App() {
   const addNote = (text, category, priority) => {
   setNotes((prev) => [
     {
-      id: Date.now(),
+    id: Date.now(),
       text,
       category,
+      priority,
       createdAt: new Date().toISOString(),
       completed: false,
-    },
+    }
+,
     ...prev,
   ]);
 };
