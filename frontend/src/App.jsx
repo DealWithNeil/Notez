@@ -104,10 +104,22 @@ const completionRate =
 
 
 // Filtering logic
-const filteredNotes = notes.filter((note) => {
-  const matchesSearch = note.text
-    .toLowerCase()
-    .includes(searchTerm.toLowerCase());
+  const filteredNotes = notes
+    .filter((note) => {
+      const matchesSearch = note.text
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+
+      const matchesCategory =
+        selectedCategory === "All" ||
+        note.category === selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      return priorityOrder[b.priority || "Low"] -
+            priorityOrder[a.priority || "Low"];
+    });
 
   const matchesCategory =
     selectedCategory === "All" ||
