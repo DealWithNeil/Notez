@@ -49,6 +49,12 @@ function App() {
   setNoteToDelete(id);
 };
 
+  const priorityOrder = {
+    High: 3,
+    Medium: 2,
+    Low: 1,
+  };
+
   const confirmDelete = () => {
     setNotes((prev) =>
       prev.filter((note) => note.id !== noteToDelete)
