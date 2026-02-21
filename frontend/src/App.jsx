@@ -111,6 +111,12 @@ function App() {
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {
+      // Incomplete notes first
+      if (a.completed !== b.completed) {
+        return a.completed ? 1 : -1;
+      }
+
+      // Then sort by priority
       return (
         priorityOrder[b.priority || "Low"] -
         priorityOrder[a.priority || "Low"]
