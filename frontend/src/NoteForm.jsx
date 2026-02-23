@@ -4,7 +4,7 @@ function NoteForm({ onAddNote, darkMode }) {
   const [text, setText] = useState("");
   const [category, setCategory] = useState("General");
   const [priority, setPriority] = useState("Low");
-
+  const [dueDate, setDueDate] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
