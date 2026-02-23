@@ -30,19 +30,20 @@ function App() {
   }, [darkMode]);
 
   // Add note
-  const addNote = (text, category, priority) => {
-    setNotes((prev) => [
-      {
-        id: Date.now(),
-        text,
-        category,
-        priority,
-        createdAt: new Date().toISOString(),
-        completed: false,
-      },
-      ...prev,
-    ]);
-  };
+ const addNote = (text, category, priority, dueDate) => {
+      setNotes((prev) => [
+        {
+          id: Date.now(),
+          text,
+          category,
+          priority,
+          dueDate, // ✅ new
+          createdAt: new Date().toISOString(),
+          completed: false,
+        },
+        ...prev,
+      ]);
+    };
 
   // Delete flow
   const deleteNote = (id) => {
