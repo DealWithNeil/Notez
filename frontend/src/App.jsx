@@ -37,7 +37,7 @@ function App() {
           text,
           category,
           priority,
-          dueDate, // ✅ new
+          dueDate, //  new
           createdAt: new Date().toISOString(),
           completed: false,
         },
@@ -112,12 +112,23 @@ function App() {
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {
-      // Incomplete notes first
+      // 1️ Incomplete first
       if (a.completed !== b.completed) {
         return a.completed ? 1 : -1;
       }
 
-      // Then sort by priority
+      // 2️ If both incomplete, sort by due date
+      if (!a.completed && !b.completed) {
+        if (a.dueDate && b.dueDate) {
+          return new Date(a.dueDate) - new Date(b.dueDate);
+        }
+
+        // Tasks with due dates come before ones without
+        if (a.dueDate && !b.dueDate) return -1;
+        if (!a.dueDate && b.dueDate) return 1;
+      }
+
+      // 3️ Fallback: sort by priority
       return (
         priorityOrder[b.priority || "Low"] -
         priorityOrder[a.priority || "Low"]
