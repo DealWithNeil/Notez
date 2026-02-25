@@ -9,13 +9,34 @@ function NoteList({ notes, onDelete, onToggle, onEdit, darkMode }) {
   return (
     <ul className="space-y-3">
       {notes.map((note) => {
-        const isOverdue =
-          note.dueDate &&
-          note.dueDate < today &&
-          !note.completed;
+      const todayDate = new Date();
+        todayDate.setHours(0, 0, 0, 0);
 
-        const isDueToday =
-          note.dueDate === today && !note.completed;
+        let dueLabel = null;
+        let dueStyle = "opacity-70";
+
+        if (note.dueDate && !note.completed) {
+          const dueDateObj = new Date(note.dueDate);
+          dueDateObj.setHours(0, 0, 0, 0);
+
+          const diffTime = dueDateObj - todayDate;
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+          if (diffDays < 0) {
+            dueLabel = `Overdue by ${Math.abs(diffDays)} day${
+              Math.abs(diffDays) !== 1 ? "s" : ""
+            }`;
+            dueStyle = "text-red-600 font-semibold";
+          } else if (diffDays === 0) {
+            dueLabel = "Due Today";
+            dueStyle = "text-orange-500 font-semibold";
+          } else {
+            dueLabel = `Due in ${diffDays} day${
+              diffDays !== 1 ? "s" : ""
+            }`;
+            dueStyle = "text-yellow-500 font-semibold";
+          }
+        }
 
         return (
           <li
