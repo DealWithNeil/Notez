@@ -135,24 +135,12 @@ function NoteList({ notes, onDelete, onToggle, onEdit, darkMode }) {
                 </div>
 
                 {/* Due Date */}
-                {note.dueDate && (
-                  <p
-                    className={`text-sm mt-1 ${
-                      isOverdue
-                        ? "text-red-600 font-semibold"
-                        : isDueToday
-                        ? "text-orange-500 font-semibold"
-                        : "opacity-70"
-                    }`}
-                  >
-                    {isOverdue
-                      ? `Overdue (Due ${note.dueDate})`
-                      : isDueToday
-                      ? "Due Today"
-                      : `Due: ${note.dueDate}`}
-                  </p>
-                )}
-
+                {dueLabel && (
+                    <p className={`text-sm mt-1 ${dueStyle}`}>
+                      {dueLabel}
+                    </p>
+                  )}
+                
                 {/* Created Date */}
                 <small className="text-gray-500 block mt-1">
                   {new Date(
