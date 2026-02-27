@@ -31,25 +31,23 @@ function App() {
   }, [darkMode]);
 
   // Add note
- const addNote = (text, category, priority, dueDate) => {
-      setNotes((prev) => [
-        {
-          id: Date.now(),
-          text,
-          category,
-          priority,
-          dueDate, //  new
-          createdAt: new Date().toISOString(),
-          completed: false,
-        },
-        ...prev,
-      ]);
-    };
+  const addNote = (text, category, priority, dueDate) => {
+    setNotes((prev) => [
+      {
+        id: Date.now(),
+        text,
+        category,
+        priority,
+        dueDate,
+        createdAt: new Date().toISOString(),
+        completed: false,
+      },
+      ...prev,
+    ]);
+  };
 
   // Delete flow
-  const deleteNote = (id) => {
-    setNoteToDelete(id);
-  };
+  const deleteNote = (id) => setNoteToDelete(id);
 
   const confirmDelete = () => {
     setNotes((prev) =>
@@ -58,9 +56,7 @@ function App() {
     setNoteToDelete(null);
   };
 
-  const cancelDelete = () => {
-    setNoteToDelete(null);
-  };
+  const cancelDelete = () => setNoteToDelete(null);
 
   // Edit
   const editNote = (id, newText) => {
@@ -82,24 +78,43 @@ function App() {
     );
   };
 
-  // Stats
+  // =========================
+  // 🔥 ADVANCED DASHBOARD STATS
+  // =========================
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   const totalNotes = notes.length;
-  const completedNotes = notes.filter((note) => note.completed).length;
+  const completedNotes = notes.filter((n) => n.completed).length;
   const remainingNotes = totalNotes - completedNotes;
+
+  const overdueNotes = notes.filter((n) => {
+    if (!n.dueDate || n.completed) return false;
+    const due = new Date(n.dueDate);
+    due.setHours(0, 0, 0, 0);
+    return due < today;
+  }).length;
+
+  const highPriorityNotes = notes.filter(
+    (n) => n.priority === "High" && !n.completed
+  ).length;
 
   const completionRate =
     totalNotes === 0
       ? 0
       : Math.round((completedNotes / totalNotes) * 100);
 
-  // Priority sorting order
   const priorityOrder = {
     High: 3,
     Medium: 2,
     Low: 1,
   };
 
-  // Filter + Sort
+  // =========================
+  // 🔍 FILTER + SORT SYSTEM
+  // =========================
+
   const filteredNotes = notes
     .filter((note) => {
       const matchesSearch = note.text
@@ -113,27 +128,21 @@ function App() {
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {
-      // 1️ Incomplete first
-      if (a.completed !== b.completed) {
-        return a.completed ? 1 : -1;
+      if (sortBy === "priority") {
+        return (
+          priorityOrder[b.priority || "Low"] -
+          priorityOrder[a.priority || "Low"]
+        );
       }
 
-      // 2️ If both incomplete, sort by due date
-      if (!a.completed && !b.completed) {
-        if (a.dueDate && b.dueDate) {
-          return new Date(a.dueDate) - new Date(b.dueDate);
-        }
-
-        // Tasks with due dates come before ones without
-        if (a.dueDate && !b.dueDate) return -1;
-        if (!a.dueDate && b.dueDate) return 1;
+      if (sortBy === "due") {
+        if (!a.dueDate) return 1;
+        if (!b.dueDate) return -1;
+        return new Date(a.dueDate) - new Date(b.dueDate);
       }
 
-      // 3️ Fallback: sort by priority
-      return (
-        priorityOrder[b.priority || "Low"] -
-        priorityOrder[a.priority || "Low"]
-      );
+      // Default: newest created first
+      return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
   return (
@@ -185,19 +194,15 @@ function App() {
           onClick={() => setDarkMode(!darkMode)}
           className={`mb-6 px-4 py-2 rounded-lg font-medium transition ${
             darkMode
-              ? "bg-yellow-400 text-black hover:bg-yellow-300"
-              : "bg-gray-800 text-white hover:bg-gray-700"
+              ? "bg-yellow-400 text-black"
+              : "bg-gray-800 text-white"
           }`}
         >
           {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
         </button>
 
-        {/* Stats Grid */}
-        <div
-          className={`grid grid-cols-3 gap-4 mb-6 text-center ${
-            darkMode ? "text-gray-200" : "text-gray-800"
-          }`}
-        >
+        {/* 🔥 Advanced Stats Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center">
           <div className="p-3 rounded bg-blue-500 text-white shadow">
             <p className="text-lg font-bold">{totalNotes}</p>
             <p className="text-sm">Total</p>
@@ -208,9 +213,14 @@ function App() {
             <p className="text-sm">Completed</p>
           </div>
 
-          <div className="p-3 rounded bg-yellow-500 text-white shadow">
-            <p className="text-lg font-bold">{remainingNotes}</p>
-            <p className="text-sm">Remaining</p>
+          <div className="p-3 rounded bg-red-500 text-white shadow">
+            <p className="text-lg font-bold">{overdueNotes}</p>
+            <p className="text-sm">Overdue</p>
+          </div>
+
+          <div className="p-3 rounded bg-yellow-400 text-black shadow">
+            <p className="text-lg font-bold">{highPriorityNotes}</p>
+            <p className="text-sm">High Priority</p>
           </div>
         </div>
 
@@ -234,18 +244,19 @@ function App() {
         </div>
 
         <NoteForm onAddNote={addNote} darkMode={darkMode} />
-        
-          <input
-            type="text"
-            placeholder="Search notes..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className={`border p-2 mb-4 rounded w-full max-w-md ${
-              darkMode
-                ? "bg-gray-800 text-white border-gray-600"
-                : "bg-white text-black"
-            }`}
-          />
+
+        {/* Search */}
+        <input
+          type="text"
+          placeholder="Search notes..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className={`border p-2 mb-4 rounded w-full max-w-md ${
+            darkMode
+              ? "bg-gray-800 text-white border-gray-600"
+              : "bg-white text-black"
+          }`}
+        />
 
         {/* Category Filter */}
         <select
@@ -264,6 +275,21 @@ function App() {
           <option value="Work">Work</option>
           <option value="Personal">Personal</option>
           <option value="Ideas">Ideas</option>
+        </select>
+
+        {/* Sort Dropdown */}
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className={`border p-2 mb-6 rounded w-full max-w-md ${
+            darkMode
+              ? "bg-gray-800 text-white border-gray-600"
+              : "bg-white text-black"
+          }`}
+        >
+          <option value="created">Sort by Created</option>
+          <option value="priority">Sort by Priority</option>
+          <option value="due">Sort by Due Date</option>
         </select>
 
         <NoteList
