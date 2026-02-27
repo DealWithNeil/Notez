@@ -115,35 +115,39 @@ function App() {
   // 🔍 FILTER + SORT SYSTEM
   // =========================
 
-  const filteredNotes = notes
-    .filter((note) => {
-      const matchesSearch = note.text
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+  const processedNotes = [...notes];
 
-      const matchesCategory =
-        selectedCategory === "All" ||
-        note.category === selectedCategory;
+const filteredNotes = processedNotes
+  .filter((note) => {
+    const matchesSearch = note.text
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
 
-      return matchesSearch && matchesCategory;
-    })
-    .sort((a, b) => {
-      if (sortBy === "priority") {
-        return (
-          priorityOrder[b.priority || "Low"] -
-          priorityOrder[a.priority || "Low"]
-        );
-      }
+    const matchesCategory =
+      selectedCategory === "All" ||
+      note.category === selectedCategory;
 
-      if (sortBy === "due") {
-        if (!a.dueDate) return 1;
-        if (!b.dueDate) return -1;
-        return new Date(a.dueDate) - new Date(b.dueDate);
-      }
+    return matchesSearch && matchesCategory;
+  });
 
-      // Default: newest created first
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
+if (sortBy !== "manual") {
+  filteredNotes.sort((a, b) => {
+    if (sortBy === "priority") {
+      return (
+        priorityOrder[b.priority || "Low"] -
+        priorityOrder[a.priority || "Low"]
+      );
+    }
+
+    if (sortBy === "due") {
+      if (!a.dueDate) return 1;
+      if (!b.dueDate) return -1;
+      return new Date(a.dueDate) - new Date(b.dueDate);
+    }
+
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+}
 
   return (
     <>
