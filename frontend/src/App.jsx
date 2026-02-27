@@ -12,7 +12,7 @@ function App() {
   const [noteToDelete, setNoteToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [sortBy, setSortBy] = useState("created");
+  const [sortBy, setSortBy] = useState("manual");
 
   // Load notes
   const [notes, setNotes] = useState(() => {
