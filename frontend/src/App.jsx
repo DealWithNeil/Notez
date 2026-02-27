@@ -149,6 +149,8 @@ if (sortBy !== "manual") {
   });
 }
 
+<option value="manual">Manual Order</option>
+
   return (
     <>
       {/* Delete Modal */}
