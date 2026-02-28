@@ -12,6 +12,27 @@ import {
 
 import { CSS } from "@dnd-kit/utilities";
 
+function SortableItem({ note, children }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: note.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <li
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
+      {children}
+    </li>
+  );
+}
+
 function NoteList({ notes, onDelete, onToggle, onEdit, darkMode }) {
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
