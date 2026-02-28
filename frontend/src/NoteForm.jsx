@@ -11,10 +11,10 @@ function NoteForm({ onAddNote, darkMode }) {
 
     if (text.trim() === "") return;
 
-    // ✅ Pass dueDate now
+    // Pass dueDate now
     onAddNote(text, category, priority, dueDate);
 
-    // ✅ Reset all fields
+    // Reset all fields
     setText("");
     setCategory("General");
     setPriority("Low");
