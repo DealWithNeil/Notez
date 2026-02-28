@@ -149,7 +149,20 @@ if (sortBy !== "manual") {
   });
 }
 
-<option value="manual">Manual Order</option>
+    <select
+      value={sortBy}
+      onChange={(e) => setSortBy(e.target.value)}
+      className={`border p-2 mb-6 rounded w-full max-w-md ${
+        darkMode
+          ? "bg-gray-800 text-white border-gray-600"
+          : "bg-white text-black"
+      }`}
+    >
+      <option value="manual">Manual Order</option>
+      <option value="created">Sort by Created</option>
+      <option value="priority">Sort by Priority</option>
+      <option value="due">Sort by Due Date</option>
+    </select>
 
   return (
     <>
