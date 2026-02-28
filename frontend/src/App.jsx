@@ -30,6 +30,7 @@ function App() {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
+    localStorage.clear(); // Clear localStorage for testing
   // Add note
   const addNote = (text, category, priority, dueDate) => {
     setNotes((prev) => [
