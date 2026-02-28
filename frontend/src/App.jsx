@@ -79,7 +79,7 @@ function App() {
   };
 
   // =========================
-  // 🔥 ADVANCED DASHBOARD STATS
+  // Stats
   // =========================
 
   const today = new Date();
@@ -87,8 +87,6 @@ function App() {
 
   const totalNotes = notes.length;
   const completedNotes = notes.filter((n) => n.completed).length;
-  const remainingNotes = totalNotes - completedNotes;
-
   const overdueNotes = notes.filter((n) => {
     if (!n.dueDate || n.completed) return false;
     const due = new Date(n.dueDate);
@@ -112,13 +110,10 @@ function App() {
   };
 
   // =========================
-  // 🔍 FILTER + SORT SYSTEM
+  // Filter + Sort
   // =========================
 
-  const processedNotes = [...notes];
-
-const filteredNotes = processedNotes
-  .filter((note) => {
+  const filteredNotes = [...notes].filter((note) => {
     const matchesSearch = note.text
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
@@ -130,39 +125,24 @@ const filteredNotes = processedNotes
     return matchesSearch && matchesCategory;
   });
 
-if (sortBy !== "manual") {
-  filteredNotes.sort((a, b) => {
-    if (sortBy === "priority") {
-      return (
-        priorityOrder[b.priority || "Low"] -
-        priorityOrder[a.priority || "Low"]
-      );
-    }
+  if (sortBy !== "manual") {
+    filteredNotes.sort((a, b) => {
+      if (sortBy === "priority") {
+        return (
+          priorityOrder[b.priority || "Low"] -
+          priorityOrder[a.priority || "Low"]
+        );
+      }
 
-    if (sortBy === "due") {
-      if (!a.dueDate) return 1;
-      if (!b.dueDate) return -1;
-      return new Date(a.dueDate) - new Date(b.dueDate);
-    }
+      if (sortBy === "due") {
+        if (!a.dueDate) return 1;
+        if (!b.dueDate) return -1;
+        return new Date(a.dueDate) - new Date(b.dueDate);
+      }
 
-    return new Date(b.createdAt) - new Date(a.createdAt);
-  });
-}
-
-    <select
-      value={sortBy}
-      onChange={(e) => setSortBy(e.target.value)}
-      className={`border p-2 mb-6 rounded w-full max-w-md ${
-        darkMode
-          ? "bg-gray-800 text-white border-gray-600"
-          : "bg-white text-black"
-      }`}
-    >
-      <option value="manual">Manual Order</option>
-      <option value="created">Sort by Created</option>
-      <option value="priority">Sort by Priority</option>
-      <option value="due">Sort by Due Date</option>
-    </select>
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+  }
 
   return (
     <>
@@ -220,7 +200,7 @@ if (sortBy !== "manual") {
           {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
         </button>
 
-        {/* 🔥 Advanced Stats Grid */}
+        {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-center">
           <div className="p-3 rounded bg-blue-500 text-white shadow">
             <p className="text-lg font-bold">{totalNotes}</p>
@@ -240,25 +220,6 @@ if (sortBy !== "manual") {
           <div className="p-3 rounded bg-yellow-400 text-black shadow">
             <p className="text-lg font-bold">{highPriorityNotes}</p>
             <p className="text-sm">High Priority</p>
-          </div>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="mb-6">
-          <div className="flex justify-between mb-1 text-sm">
-            <span>Progress</span>
-            <span>{completionRate}%</span>
-          </div>
-
-          <div
-            className={`w-full h-3 rounded-full ${
-              darkMode ? "bg-gray-700" : "bg-gray-300"
-            }`}
-          >
-            <div
-              className="h-3 rounded-full bg-green-500 transition-all duration-500"
-              style={{ width: `${completionRate}%` }}
-            />
           </div>
         </div>
 
@@ -297,7 +258,7 @@ if (sortBy !== "manual") {
         </select>
 
         {/* Sort Dropdown */}
-        
+        <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
           className={`border p-2 mb-6 rounded w-full max-w-md ${
@@ -305,10 +266,12 @@ if (sortBy !== "manual") {
               ? "bg-gray-800 text-white border-gray-600"
               : "bg-white text-black"
           }`}
-        
+        >
+          <option value="manual">Manual Order</option>
           <option value="created">Sort by Created</option>
           <option value="priority">Sort by Priority</option>
           <option value="due">Sort by Due Date</option>
+        </select>
 
         <NoteList
           notes={filteredNotes}
