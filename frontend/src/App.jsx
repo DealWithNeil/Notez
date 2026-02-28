@@ -313,6 +313,7 @@ if (sortBy !== "manual") {
 
         <NoteList
           notes={filteredNotes}
+          setNotes={setNotes}
           onDelete={deleteNote}
           onEdit={editNote}
           onToggle={toggleComplete}
