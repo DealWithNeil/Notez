@@ -167,11 +167,11 @@ function NoteList({
                       </p>
                     )}
 
-                    <small className="text-gray-500 block mt-1">
-                      {new Date(
-                        note.createdAt
-                      ).toLocaleString()}
-                    </small>
+                    {note.createdAt && (
+                      <small className="text-gray-500 block mt-1">
+                        {new Date(note.createdAt).toLocaleString()}
+                      </small>
+                    )}
                   </div>
 
                   <div className="ml-4 flex flex-col gap-2 items-end">
