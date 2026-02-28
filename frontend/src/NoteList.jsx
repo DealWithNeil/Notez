@@ -1,4 +1,16 @@
 import { useState } from "react";
+import {
+  DndContext,
+  closestCenter,
+} from "@dnd-kit/core";
+
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  useSortable,
+} from "@dnd-kit/sortable";
+
+import { CSS } from "@dnd-kit/utilities";
 
 function NoteList({ notes, onDelete, onToggle, onEdit, darkMode }) {
   const [editingId, setEditingId] = useState(null);
