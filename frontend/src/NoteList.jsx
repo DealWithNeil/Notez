@@ -13,9 +13,14 @@ import {
 
 import { CSS } from "@dnd-kit/utilities";
 
-function SortableItem({ note, children }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: note.id });
+function SortableItem({ id, children }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -40,32 +45,29 @@ function NoteList({
   onToggle,
   onEdit,
   darkMode,
-  setNotes, // 👈 must be passed from App
+  setNotes,
 }) {
-  const [editingId, setEditingId] = useState(null);
-  const [editText, setEditText] = useState("");
-
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
-    if (!over) return;
+    if (!over || active.id === over.id) return;
 
-    if (active.id !== over.id) {
-      const oldIndex = notes.findIndex(
-        (n) => n.id === active.id
-      );
-      const newIndex = notes.findIndex(
-        (n) => n.id === over.id
-      );
+    const oldIndex = notes.findIndex(
+      (n) => n.id === active.id
+    );
+    const newIndex = notes.findIndex(
+      (n) => n.id === over.id
+    );
 
-      const newOrder = arrayMove(
-        notes,
-        oldIndex,
-        newIndex
-      );
+    if (oldIndex === -1 || newIndex === -1) return;
 
-      setNotes(newOrder);
-    }
+    const newOrder = arrayMove(
+      notes,
+      oldIndex,
+      newIndex
+    );
+
+    setNotes(newOrder);
   };
 
   return (
@@ -79,8 +81,8 @@ function NoteList({
       >
         <ul className="space-y-3">
           {notes.map((note) => {
-            const todayDate = new Date();
-            todayDate.setHours(0, 0, 0, 0);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
 
             let dueLabel = null;
             let dueStyle = "opacity-70";
@@ -89,7 +91,7 @@ function NoteList({
               const dueDateObj = new Date(note.dueDate);
               dueDateObj.setHours(0, 0, 0, 0);
 
-              const diffTime = dueDateObj - todayDate;
+              const diffTime = dueDateObj - today;
               const diffDays = Math.ceil(
                 diffTime / (1000 * 60 * 60 * 24)
               );
@@ -97,9 +99,7 @@ function NoteList({
               if (diffDays < 0) {
                 dueLabel = `Overdue by ${Math.abs(
                   diffDays
-                )} day${
-                  Math.abs(diffDays) !== 1 ? "s" : ""
-                }`;
+                )} day${Math.abs(diffDays) !== 1 ? "s" : ""}`;
                 dueStyle = "text-red-600 font-semibold";
               } else if (diffDays === 0) {
                 dueLabel = "Due Today";
@@ -117,7 +117,7 @@ function NoteList({
             return (
               <SortableItem
                 key={note.id}
-                note={note}
+                id={note.id}
               >
                 <div
                   className={`p-4 rounded shadow flex justify-between items-start
@@ -188,16 +188,6 @@ function NoteList({
                       {note.completed
                         ? "✔ Completed"
                         : "Mark as Done"}
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setEditingId(note.id);
-                        setEditText(note.text);
-                      }}
-                      className="text-blue-500"
-                    >
-                      Edit
                     </button>
 
                     <button
