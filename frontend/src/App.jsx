@@ -210,7 +210,7 @@ function App() {
 
           <div className="p-3 rounded bg-green-500 text-white shadow">
             <p className="text-lg font-bold">{completedNotes}</p>
-            <p className="text-sm">Completed</p>
+            <p className="text-sm">Completed ({completionRate}%)</p>
           </div>
 
           <div className="p-3 rounded bg-red-500 text-white shadow">

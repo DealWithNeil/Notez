@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -47,6 +46,18 @@ function NoteList({
   darkMode,
   setNotes,
 }) {
+  const handleEdit = (note) => {
+    if (!onEdit) return;
+
+    const result = globalThis.prompt("Edit note:", note.text);
+    if (result === null) return;
+
+    const newText = result.trim();
+    if (!newText || newText === note.text) return;
+
+    onEdit(note.id, newText);
+  };
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
@@ -188,6 +199,13 @@ function NoteList({
                       {note.completed
                         ? "✔ Completed"
                         : "Mark as Done"}
+                    </button>
+
+                    <button
+                      onClick={() => handleEdit(note)}
+                      className="text-blue-500 text-sm"
+                    >
+                      Edit
                     </button>
 
                     <button
