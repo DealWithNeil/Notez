@@ -3,6 +3,19 @@ import NoteForm from "./NoteForm";
 import NoteList from "./NoteList";
 
 function App() {
+  const loadNotesFromStorage = () => {
+    const saved = localStorage.getItem("notes");
+    if (!saved) return [];
+
+    try {
+      const parsed = JSON.parse(saved);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      localStorage.removeItem("notes");
+      return [];
+    }
+  };
+
   // Dark mode (persistent)
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("darkMode");
@@ -15,10 +28,7 @@ function App() {
   const [sortBy, setSortBy] = useState("manual");
 
   // Load notes
-  const [notes, setNotes] = useState(() => {
-    const saved = localStorage.getItem("notes");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [notes, setNotes] = useState(loadNotesFromStorage);
 
   // Save notes
   useEffect(() => {
