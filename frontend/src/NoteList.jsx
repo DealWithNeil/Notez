@@ -49,6 +49,9 @@ function NoteList({
   const handleEdit = (note) => {
     if (!onEdit) return;
 
+    // ERROR: Using globalThis.prompt() is outdated and not accessible in strict mode
+    // Better approach: Create a proper React modal/dialog component instead
+    // This is a security risk (XSS) and doesn't follow React best practices
     const result = globalThis.prompt("Edit note:", note.text);
     if (result === null) return;
 
@@ -63,6 +66,9 @@ function NoteList({
 
     if (!over || active.id === over.id) return;
 
+    // ERROR: Using findIndex to look up note indices is inefficient (O(n))
+    // Better approach: Create an id-to-index map for O(1) lookup
+    // This is repeated twice, making it O(2n) complexity
     const oldIndex = notes.findIndex(
       (n) => n.id === active.id
     );
@@ -102,6 +108,9 @@ function NoteList({
               const dueDateObj = new Date(note.dueDate);
               dueDateObj.setHours(0, 0, 0, 0);
 
+              // ERROR: Using Date subtraction returns milliseconds, then Math.ceil() calculation
+              // Better approach: Create a dedicated utility function for date comparison
+              // This is bug-prone and lacks clarity. Also timezone issues can occur
               const diffTime = dueDateObj - today;
               const diffDays = Math.ceil(
                 diffTime / (1000 * 60 * 60 * 24)
@@ -190,6 +199,9 @@ function NoteList({
                       onClick={() =>
                         onToggle(note.id)
                       }
+                      // ERROR: Missing aria-label and title attributes for accessibility
+                      // Screen readers won't understand what this button does
+                      // Should add: aria-label={note.completed ? "Mark as incomplete" : "Mark as complete"}
                       className={`text-sm ${
                         note.completed
                           ? "text-green-500"
@@ -204,6 +216,8 @@ function NoteList({
                     <button
                       onClick={() => handleEdit(note)}
                       className="text-blue-500 text-sm"
+                      // ERROR: Missing aria-label attribute
+                      // Should add: aria-label={`Edit note: ${note.text}`}
                     >
                       Edit
                     </button>
@@ -212,6 +226,8 @@ function NoteList({
                       onClick={() =>
                         onDelete(note.id)
                       }
+                      // ERROR: Missing aria-label attribute and poor UX with just "✕"
+                      // Should add: aria-label={`Delete note: ${note.text}`}
                       className="text-red-500"
                     >
                       ✕

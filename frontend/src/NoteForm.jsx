@@ -9,6 +9,8 @@ function NoteForm({ onAddNote, darkMode }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // ERROR: Empty text validation only checks trimmed value but still allows whitespace
+    // Better approach: use if (!text.trim()) for clarity
     if (text.trim() === "") return;
 
     // Pass dueDate now

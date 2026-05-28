@@ -22,6 +22,9 @@ function App() {
     return savedTheme === "true";
   });
 
+  // ERROR: These state variables are missing dependency on loadNotesFromStorage
+  // Should be initialized only after notes are loaded, not simultaneously
+  // This can cause race conditions with localStorage
   const [noteToDelete, setNoteToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -35,7 +38,9 @@ function App() {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
-  // Save dark mode
+  // ERROR: darkMode is stored as a boolean but retrieved as a string "true"/"false"
+  // This causes the condition "savedTheme === "true"" to always work, but storage inconsistency
+  // Should convert boolean to string consistently: JSON.stringify(darkMode)
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
@@ -124,6 +129,10 @@ function App() {
   // Filter + Sort
   // =========================
 
+  // ERROR: filteredNotes is created as a new array, but using .sort() mutates it
+  // This violates React's immutability principle and can cause unexpected behavior
+  // The mutation happens on line 140 with filteredNotes.sort()
+  // Should create a sorted copy instead: [...filteredNotes].sort(...)
   const filteredNotes = [...notes].filter((note) => {
     const matchesSearch = note.text
       .toLowerCase()
@@ -136,8 +145,13 @@ function App() {
     return matchesSearch && matchesCategory;
   });
 
+  // Create a copy of filteredNotes before sorting to avoid mutation
+  let sortedNotes = filteredNotes;
+  
   if (sortBy !== "manual") {
-    filteredNotes.sort((a, b) => {
+    // ERROR: Original code mutates filteredNotes which violates React immutability
+    // Now we create a new sorted array instead
+    sortedNotes = [...filteredNotes].sort((a, b) => {
       if (sortBy === "priority") {
         return (
           priorityOrder[b.priority || "Low"] -
@@ -285,7 +299,7 @@ function App() {
         </select>
 
         <NoteList
-          notes={filteredNotes}
+          notes={sortedNotes}
           setNotes={setNotes}
           onDelete={deleteNote}
           onEdit={editNote}
